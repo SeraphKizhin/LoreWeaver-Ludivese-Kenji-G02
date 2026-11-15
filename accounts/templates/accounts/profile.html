@@ -1,0 +1,21 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+    <h2>My Profile</h2>
+    
+    <div>
+        {% if user.profile_photo %}
+            <img src="{{ user.profile_photo.url }}" alt="Profile Photo" width="150">
+        {% else %}
+            <p>No profile photo uploaded.</p>
+        {% endif %}
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Profile</button>
+    </form>
+    
+    <br>
+    <a href="{% url 'dashboard_router' %}">Back to Dashboard</a>
+{% endblock %}

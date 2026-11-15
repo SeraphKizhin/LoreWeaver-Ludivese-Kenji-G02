@@ -7,6 +7,8 @@ class CustomUser(AbstractUser):
         ('creator', 'Creator'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='creator')
+    contact_number = models.CharField(max_length=15, blank=True, null=True)
+    profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
     
     def __str__(self):
         return self.username

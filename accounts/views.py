@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
 
@@ -44,3 +46,27 @@ def logout_view(request):
 
 def dashboard_view(request):
     return render(request, 'accounts/dashboard.html')
+
+@login_required
+def dashboard_router(request):
+    """Routes the user to their specific dashboard based on their role."""
+    if request.user.role == 'admin':
+        return redirect('admin_dashboard')
+    elif request.user.role == 'creator':
+        return redirect('creator_dashboard')
+    else:
+        return redirect('login')
+
+@login_required
+def admin_dashboard_view(request):
+    """Strictly protected dashboard for Admins."""
+    if request.user.role != 'admin':
+        raise PermissionDenied("You do not have permission to view the Admin dashboard.")
+    return render(request, 'accounts/admin_dashboard.html')
+
+@login_required
+def creator_dashboard_view(request):
+    """Strictly protected dashboard for Creators."""
+    if request.user.role != 'creator':
+        raise PermissionDenied("You do not have permission to view the Creator dashboard.")
+    return render(request, 'accounts/creator_dashboard.html')

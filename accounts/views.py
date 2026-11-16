@@ -13,9 +13,9 @@ def register_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user) # Automatically log the user in after registration
+            login(request, user)
             messages.success(request, "Registration successful.")
-            return redirect('dashboard') # We will create this URL next
+            return redirect('dashboard_router')
         else:
             messages.error(request, "Registration failed. Please check the errors below.")
     else:
@@ -32,7 +32,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Welcome back, {username}!")
-                return redirect('dashboard')
+                return redirect('dashboard_router')
         else:
             messages.error(request, "Invalid username or password.")
     else:

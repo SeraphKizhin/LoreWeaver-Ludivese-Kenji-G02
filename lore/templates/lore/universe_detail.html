@@ -1,0 +1,24 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+    <h2>{{ universe.name }}</h2>
+    <p>{{ universe.description }}</p>
+    
+    <hr>
+    <h3>Characters</h3>
+    <a href="{% url 'character_create' universe.id %}">Add New Character</a>
+    
+    <ul>
+        {% for character in characters %}
+            <li>
+                <strong>{{ character.name }}</strong> 
+                {% if character.role %}({{ character.role }}){% endif %}
+                <p>{{ character.description }}</p>
+            </li>
+        {% empty %}
+            <p>No characters exist in this universe yet.</p>
+        {% endfor %}
+    </ul>
+    
+    <br>
+    <a href="{% url 'universe_list' %}">Back to My Universes</a>
+{% endblock %}

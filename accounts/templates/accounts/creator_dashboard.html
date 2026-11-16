@@ -3,6 +3,8 @@
     <h2>Creator Dashboard</h2>
     <p>Welcome, {{ user.username }}. Manage your LoreWeaver universes and entities here.</p>
     <!-- Creator specific tools will go here -->
+
+    <a href="{% url 'universe_list' %}">Manage My Universes</a>
     
     <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}

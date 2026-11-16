@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Universe
-from .forms import UniverseForm
+from .models import Universe, Character
+from .forms import UniverseForm, CharacterForm
 
 # Create your views here.
 
@@ -29,3 +29,28 @@ def universe_create(request):
         form = UniverseForm()
     
     return render(request, 'lore/universe_form.html', {'form': form})
+
+@login_required
+def universe_detail(request, universe_id):
+    """READ: Displays the details of a Universe and its Characters."""
+    universe = get_object_or_404(Universe, id=universe_id, creator=request.user)
+    characters = universe.characters.all().order_by('-created_at')
+    return render(request, 'lore/universe_detail.html', {'universe': universe, 'characters': characters})
+
+@login_required
+def character_create(request, universe_id):
+    """CREATE: Adds a new character to a specific Universe."""
+    universe = get_object_or_404(Universe, id=universe_id, creator=request.user)
+    
+    if request.method == 'POST':
+        form = CharacterForm(request.POST)
+        if form.is_valid():
+            character = form.save(commit=False)
+            character.universe = universe # Automatically assign the Universe
+            character.save()
+            messages.success(request, f"Character '{character.name}' added successfully!")
+            return redirect('universe_detail', universe_id=universe.id)
+    else:
+        form = CharacterForm()
+    
+    return render(request, 'lore/character_form.html', {'form': form, 'universe': universe})

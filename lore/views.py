@@ -6,6 +6,12 @@ from .forms import UniverseForm, CharacterForm
 
 # Create your views here.
 
+def landing_page(request):
+    """The public homepage for LoreWeaver."""
+    if request.user.is_authenticated:
+        return redirect('dashboard_router')
+    return render(request, 'lore/landing.html')
+
 @login_required
 def universe_list(request):
     """READ: Displays only the Universes owned by the logged-in user."""

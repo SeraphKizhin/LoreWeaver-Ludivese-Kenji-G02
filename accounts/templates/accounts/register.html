@@ -1,5 +1,6 @@
 {% extends 'accounts/base.html' %}
 {% block content %}
+<div class="content-card">
     <h2>Create a LoreWeaver Account</h2>
     <form method="POST">
         {% csrf_token %}
@@ -7,4 +8,5 @@
         <button type="submit">Register</button>
     </form>
     <p>Already have an account? <a href="{% url 'login' %}">Log in here</a>.</p>
+</div>
 {% endblock %}

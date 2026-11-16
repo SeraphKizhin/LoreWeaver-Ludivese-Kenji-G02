@@ -1,0 +1,23 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+<div class="landing-container">
+    <h1>Welcome to LoreWeaver</h1>
+    <p class="subtitle">A Relational Worldbuilding and Story Bible System</p>
+    
+    <div class="landing-actions">
+        <a href="{% url 'register' %}" class="btn btn-primary">Start Building</a>
+        <a href="{% url 'login' %}" class="btn btn-secondary">Log In</a>
+    </div>
+    
+    <div class="features">
+        <div class="feature-card">
+            <h3>Track Complex Lore</h3>
+            <p>Treat characters, locations, and factions as interconnected database entities.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Prevent Plot Holes</h3>
+            <p>Maintain continuity across long-form stories and tabletop campaigns.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
